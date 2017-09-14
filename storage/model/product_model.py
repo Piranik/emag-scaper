@@ -1,6 +1,10 @@
 from mongoengine import Document, EmbeddedDocument, EmbeddedDocumentListField, StringField, DateTimeField, ListField, FloatField
 import datetime
 
+class Price(EmbeddedDocument):
+    timestamp = DateTimeField(default=datetime.datetime.utcnow)
+    value = FloatField(min_value=0.0)
+
 class Product(Document):
     title = StringField(required=True, max_length=200)
     category = StringField(required=True, max_length=200)
@@ -9,6 +13,5 @@ class Product(Document):
     prices = EmbeddedDocumentListField(Price)
     today_price = FloatField(min_value=0.0)
 
-class Price(EmbeddedDocument):
-    timestamp = DateTimeField(default=datetime.datetime.utcnow)
-    value = FloatField(min_value=0.0)
+class Test(Document):
+    title = StringField(required=True, max_length=200)
