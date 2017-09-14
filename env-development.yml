@@ -1,0 +1,4 @@
+price-db:
+  host: mongo
+  port: 27017
+  database: prices

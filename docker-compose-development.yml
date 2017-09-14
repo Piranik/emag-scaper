@@ -1,0 +1,36 @@
+version: "3"
+
+services:
+  scaper:
+    build: .
+    command: sleep 100000000000
+    volumes:
+      - .:/opt/
+    links:
+      - "rabbitmq:rabbitmq"
+      - "mongo:mongo"
+
+  price-updater-controller:
+    build: .
+    command: sleep 100000000000
+    volumes:
+      - .:/opt/
+    links:
+      - "rabbitmq:rabbitmq"
+      - "mongo:mongo"
+
+  rabbitmq:
+    image: rabbitmq:3
+    expose:
+      - "5672"
+      - "15672"
+      - "25672"
+
+  mongo:
+    image: tutum/mongodb
+    expose:
+        - "27017"
+    volumes:
+        - /Users/Teodor/data/db:/data/db
+    environment:
+        - AUTH=no
