@@ -13,6 +13,11 @@ class PriceMongoDriver(object):
         connect_db(url)
         # aici continui cu driver-ul
 
+    def save_product(self, product):
+        return product.save()
+
+    
+
 if __name__ == '__main__':
     print PriceMongoDriver()
 
