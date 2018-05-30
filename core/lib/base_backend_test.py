@@ -8,13 +8,15 @@ class BaseBackendTest(unittest.TestCase):
     def setUp(self):
         self.db_clients = []
         configs = get_config()
-        print configs
         for db_conf_name, db_configs  in configs['databases'].iteritems():
+            test_db_name = 'test_%s' % db_configs['database']
             self.db_clients.append(connect_db('mongodb://%s:%d/%s' % (db_configs['host'], db_configs['port'],
-                                                                      db_configs['database'])))
+                                                                      test_db_name)))
 
     def tearDown(self):
-        print 'a'
-        print self.db_clients
         for db_client in self.db_clients:
+            db = db_client.get_default_database()
+            for collection in db.collection_names():
+                if collection != 'system.indexes':
+                    db[collection].drop()
             db_client.close()

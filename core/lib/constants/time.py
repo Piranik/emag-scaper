@@ -1,0 +1,3 @@
+DAY = 24*60*60
+WEEK = 7 * DAY
+MONTH = 30 * DAY

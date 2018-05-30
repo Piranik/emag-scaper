@@ -1,17 +1,8 @@
-from mongoengine import Document, EmbeddedDocument, EmbeddedDocumentListField, StringField, DateTimeField, ListField, FloatField
+from mongoengine import Document, EmbeddedDocument, EmbeddedDocumentListField, StringField, DateTimeField, ListField, FloatField, IntField
 import datetime
 
 class Price(EmbeddedDocument):
-    timestamp = DateTimeField(default=datetime.datetime.utcnow)
+    start_timestamp = IntField(required=True, min_value=0, default=datetime.datetime.utcnow)
+    finish_timestamp = IntField(required=True, min_value=0, default=datetime.datetime.utcnow)
     value = FloatField(min_value=0.0)
 
-class Product(Document):
-    title = StringField(required=True, max_length=200)
-    category = StringField(required=True, max_length=200)
-    created_at = DateTimeField(default=datetime.datetime.utcnow)
-    update_at = DateTimeField(default=datetime.datetime.utcnow)
-    prices = EmbeddedDocumentListField(Price)
-    today_price = FloatField(min_value=0.0)
-
-class Test(Document):
-    title = StringField(required=True, max_length=200)

@@ -30,6 +30,9 @@ services:
     image: tutum/mongodb
     expose:
         - "27017"
+        - "27018"
+    ports:
+        - 27017:27017
     volumes:
         - /Users/Teodor/data/db:/data/db
     environment:

@@ -1,0 +1,6 @@
+nose
+pyyaml
+mongoengine
+bs4
+requests
+pika

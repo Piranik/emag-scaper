@@ -10,7 +10,7 @@ LOGGER = logging.getLogger(__name__)
 class BaseConsumer(object):
     EXCHANGE = 'message'
     EXCHANGE_TYPE = 'topic'
-    QUEUE = 'text'
+    QUEUE_NAME = 'text'
     ROUTING_KEY = 'example.text'
 
     def __init__(self, amqp_url):
@@ -78,7 +78,7 @@ class BaseConsumer(object):
 
     def on_exchange_declareok(self, unused_frame):
         LOGGER.info('Exchange declared')
-        self.setup_queue(self.QUEUE)
+        self.setup_queue(self.QUEUE_NAME)
 
     def setup_queue(self, queue_name):
         LOGGER.info('Declaring queue %s', queue_name)
@@ -86,8 +86,8 @@ class BaseConsumer(object):
 
     def on_queue_declareok(self, method_frame):
         LOGGER.info('Binding %s to %s with %s',
-                    self.EXCHANGE, self.QUEUE, self.ROUTING_KEY)
-        self._channel.queue_bind(self.on_bindok, self.QUEUE,
+                    self.EXCHANGE, self.QUEUE_NAME, self.ROUTING_KEY)
+        self._channel.queue_bind(self.on_bindok, self.QUEUE_NAME,
                                  self.EXCHANGE, self.ROUTING_KEY)
 
     def on_bindok(self, unused_frame):
@@ -98,7 +98,7 @@ class BaseConsumer(object):
         LOGGER.info('Issuing consumer related RPC commands')
         self.add_on_cancel_callback()
         self._consumer_tag = self._channel.basic_consume(self.on_message,
-                                                         self.QUEUE)
+                                                         self.QUEUE_NAME)
 
     def add_on_cancel_callback(self):
         LOGGER.info('Adding consumer cancellation callback')
